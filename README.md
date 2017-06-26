@@ -1,8 +1,12 @@
-## ABSA
+## Sentiment Analysis
 
-ABSA is an automated system that uses machine learning and natural language processing to generate a digestable, human-understandable, and browsable summary of the opinions expressed in a corpus of social media data. ABSA's summary aims to provide the user with an at-a-glance understanding of an account's features (or *aspects*) as well as users' attitudes towards these features. 
+ABSA (aspect-based sentiment analysis) is an automated system that uses machine learning and natural language processing to generate a digestable, human-understandable, and browsable summary of the opinions expressed in a corpus of social media data. ABSA's summary aims to provide the user with an at-a-glance understanding of an account's features (or *aspects*) as well as users' attitudes towards these features. 
 
-YUMM generates a summary of this form in a completely automated fashion from the raw text (and metadata) of social media data. The items in blue at the top are the "aspects" that ABSA has extracted from the texts ("sex", "relationship", "democracy" etc.). These are the salient features of the account content that reviewers often comment on. 
+ABSA generates a summary of this form in a completely automated fashion from the raw text (and metadata) of social media data. The items in blue at the top are the "aspects" that ABSA has extracted from the texts ("sex", "relationship", "democracy" etc.). These are the salient features of the account content that reviewers often comment on. 
+
+## Social Media Scraping
+
+Under the folder fb and Twitter are two parts of the separate programs that take user input of a facebook account page name or twitter handle/hashtag and return complete data for these accounts, and gave a dashboard of activity overview within the selected period for each account.
 
 ### Code Overview
 
