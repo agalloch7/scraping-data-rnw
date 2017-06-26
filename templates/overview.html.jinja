@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block all %}
+
+<div class="page-header">
+	<h1><b>Overview of Analysis for {{summary['business_name']}}</b><br>
+</div>
+
+<body>
+
+<table data-toggle="table" data-sort-name="stargazers_count" data-sort-order="desc">
+  <tr>
+    <th data-field="keywords" data-sortable="true">Keywords</th>
+    <th data-field="stargazers_count" data-sortable="true">Number of Reviews</th>
+    <th data-field="positive_reviews" data-sortable="true">Percentage of positive reviews</th>
+  </tr>
+  {% for aspect in summary['aspect_summary'] %}
+  <tr>
+    <td>{{ aspect }}</td>
+    <td>{{ summary['aspect_summary'][aspect]['num_sents']}}</td>
+    <td>{{ summary['aspect_summary'][aspect]['frac_pos']}}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+</body>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block all %}
+<div class="page-header">
+	<h1><b>Facebook Comments Sentiment Analysis</b><br>
+</div>
+
+<body> 
+	<br>
+	<br>
+	<p> Aspect-based sentiment analysis uses natural language processing and machine learning to automatically generate an aspect-based sentiment summary from the raw text of English app reviews. 
+	<br><br>
+	To use:
+	<br>
+	1. Upload the Facebook documents you get from the analyst. The title should be in the format of "(account_name)__facebook_comments.csv"
+	<br>
+	2. Upload the file below. The system will automatically process all the comments.
+	<br>
+	3. Select a date range you want to look at.
+	<br>
+	4. Enter additional keywords that you want to know about that's not reflected in the automated process. 
+	<br>
+	<br>
+	<div class = "row">
+		<div class = "col-md-4">
+			<h1>1. Upload CSV file</h1>
+			<form action="upload" class ="dropzone" method="POST" enctype="multipart/form-data">
+		</form>
+		</div>
+		<div class = "col-md-4">
+			<h1>2. Select time range</h1>
+			Please select a time range, click on "custom range" to select a start date and end date
+			<br>
+			<br>
+			<form action="processdate" method="POST">
+				<div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+
+			    	<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+
+			    <span></span> <b class="caret"></b>
+				</div>
+				<div id="displayrange" class="pull-right"></div>
+			</form>
+		</div>
+		<div class = "col-md-4">
+			<h1>3. Enter additional keywords</h1>
+			If you definitely wish to know certain aspects such as people's comments regarding "condom" or "sex", please enter below, <i><b>but users might not be discussing this keyword. </i></b>
+			<br>
+			<br>
+			<form action="aspect" class = "form-inline" method="post" id="aspect">
+  				<label for="versioninput">Additional keywords:</label>
+			  	<input type="text" class="form-control" name="aspect" placeholder="e.g. Condom, STD">
+			  	<button type="submit" class="btn btn-default">Submit</button>
+			</form>
+		</div>
+	</div>
+	<br>
+	<br>
+		<form action="kickoff">
+	<input type="submit" id="button" class="btn btn-primary" value="Submit">
+	</form>
+	<br>
+	<br>
+	Please select an account to explore results:
+	</p>
+	<br>
+
+	<ul>
+		{% for business in businesses %}
+			<table>
+			<tr>
+			<td style="padding-right:10px"> 
+				<a href="/summaries/{{ business['business_id'] }}">{{ business['business_name'] }} </a>
+			</td>
+			<td>
+				<a href="/overview/{{ business['business_id'] }}">Overview</a>
+			</td>
+			</tr> 
+		{% endfor %}
+	</ul>
+	<br>
+	<br>
+<script type="text/javascript">
+$(function() {
+    $('input[name="daterange"]').daterangepicker();
+});
+
+$(function() {
+
+    var start = moment().subtract(29, 'days');
+    var end = moment();
+    console.log(start)
+    console.log(end)
+
+    function cb(start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+
+        var dates = {
+        	'start': start,
+        	'end': end
+        }
+
+		$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			  url: "/processdate",
+			  data: JSON.stringify(dates),
+			  success: function (data) {
+			    console.log(data.title);
+			    console.log(data.article);
+			  },
+			  dataType: "json"
+			});
+
+    }
+
+    $('#reportrange').daterangepicker({
+    	locale: {
+            format: 'YYYY-MM-DD'
+        },
+
+        startDate: start,
+        endDate: end,
+    }, cb);
+
+    cb(start, end);
+    
+});
+
+</script>
+</body>
+{% endblock %}
